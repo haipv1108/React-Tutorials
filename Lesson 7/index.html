@@ -18,6 +18,7 @@
       },
       //1 called ONCE
       // BEFORE COMPONENT IS RENDERED
+      // HAPPENS WHEN CLASS IS CREATED
       getDefaultProps: function() {
         console.log("Getting our default properties");
       },
@@ -51,11 +52,39 @@
         console.log(this.state);
         console.log(this.props);
         console.log(ReactDOM.findDOMNode(this));
+        this.interval = setInterval(this.increment, 1000);
+      },
+      // 6 ONLY ONCE
+      // AFTER COMPONENT HAS RENDERED
+      componentWillUnmount: function() {
+        clearInterval(this.interval);
+        console.log("Component Unmounted");
       }
     });
 
+    var LifecycleContainer = React.createClass({
+      mount: function() {
+        ReactDOM.render(
+          <LifecycleComponent />,
+          document.getElementById('renderHere')
+        );
+      },
+      unmount: function() {
+        ReactDOM.unmountComponentAtNode(document.getElementById('renderHere'));
+      },
+      render: function() {
+        console.log("LifecycleContainer Rendered");
+        return (
+          <div>
+            <button onClick={this.mount}>Mount</button>
+            <button onClick={this.unmount}>Unmount</button>
+            <div id="renderHere"></div>
+          </div>
+        )
+      }
+    });
     ReactDOM.render(
-      <LifecycleComponent />,
+      <LifecycleContainer />,
       document.getElementById('app')
     );
     </script>
