@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import 'whatwg-fetch';
 import PokemonIndexList from './components/PokemonIndexList'
+import PokemonModal from './components/PokemonModal'
 
 class App extends Component {
 
@@ -16,12 +17,15 @@ class App extends Component {
       offset: 0,
       totalPages: 0,
       count: 0,
-      loaded: false
+      loaded: false,
+      showModal: false
     };
 
     this.loadPokemon = this.loadPokemon.bind(this);
     this.handlePaginationSelect = this.handlePaginationSelect.bind(this);
     this.handleLimitChange = this.handleLimitChange.bind(this);
+    this.handleModalOpen = this.handleModalOpen.bind(this);
+    this.handleModalClose = this.handleModalClose.bind(this);
   }
 
   loadPokemon(url) {
@@ -65,6 +69,18 @@ class App extends Component {
     })
   }
 
+  handleModalOpen() {
+    this.setState ({
+      showModal: true
+    });
+  }
+
+  handleModalClose() {
+    this.setState ({
+      showModal: false
+    });
+  }
+
   render() {
     return (
       <div className="App">
@@ -87,25 +103,8 @@ class App extends Component {
           onSelect = {this.handlePaginationSelect}
           totalPages = {this.state.totalPages}
         />
-        {/* <SelectItemsPerPageButtons options ={[10, 20, 50, 100, 200]} selectValue = {this.state.limit} allValue = {this.state.count} onOptionSelected = {this.handleLimitChange} />
-        <Col sm={8} md={10} smOffset={2} mdOffset={1} >
-          <PokeList listOfPokemon={this.state.pokemon} />
-        </Col>
 
-        <Col sm={12} >
-          <Pagination
-            prev
-            next
-            first
-            last
-            ellipsis
-            boundaryLinks
-            items = {this.state.totalPages}
-            maxButtons={5}
-            activePage = {this.state.activePage}
-            onSelect={this.handlePaginationSelect}
-          />
-        </Col> */}
+        <PokemonModal openModal={this.handleModalOpen} closeModal = {this.handleModalClose} showModal={this.state.showModal} />
       </div>
     );
   }
