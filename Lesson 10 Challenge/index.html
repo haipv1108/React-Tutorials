@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>React tutorial</title>
+    <script src="https://fb.me/react-0.14.7.js"></script>
+    <script src="https://fb.me/react-dom-0.14.7.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.2/browser.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="lesson10challengestyling.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+    class CounterChallenge extends React.Component{
+      constructor(props) {
+        super(props);
+        this.state = { count: 0 }
+        this.incrementCount = this.incrementCount.bind(this);
+      }
+      incrementCount(value){
+        console.log(this);
+        this.setState({
+          count: this.state.count + value
+        })
+      }
+      render() {
+        return (
+          <div>
+            <h1>Count: {this.state.count}</h1>
+            <Button style="blue" text={this.props.text + ' ' + this.props.valueOne} value={this.props.valueOne} clickHandler={() => this.incrementCount(this.props.valueOne)} />
+            <Button style="green" text={this.props.text + ' ' + this.props.valueTwo} value={this.props.valueTwo} clickHandler={() => this.incrementCount(this.props.valueTwo)} />
+            <Button style="red" text={this.props.text + ' ' + this.props.valueThree} value={this.props.valueThree} clickHandler={() => this.incrementCount(this.props.valueThree)} />
+          </div>
+        )
+      }
+    }
+
+    CounterChallenge.defaultProps = {
+        valueOne: 1,
+        valueTwo: 5,
+        valueThree: 10,
+        text: 'Add'
+    }
+
+    const Button = (props) => {
+      return (
+        <button className={props.style} value={props.value} onClick={props.clickHandler}>{props.text}</button>
+      )
+    };
+
+    Button.propTypes = {
+      text: React.PropTypes.string,
+      style: React.PropTypes.string,
+      value: React.PropTypes.number,
+      clickHandler: React.PropTypes.func.isRequired
+    }
+
+    ReactDOM.render(
+      <CounterChallenge valueOne={100} valueTwo={1000} valueThree={10000} />,
+      document.getElementById('app')
+    );
+    </script>
+  </body>
+</html>
